@@ -9,6 +9,7 @@ if(firebase.apps.length === 0) {
 }
 
 const Login = () => {
+    const [newUser, setNewUser] = useState(false);
     const [user,setUser] = useState({
         isSignedIn: false,
         name: '',
@@ -20,24 +21,8 @@ const Login = () => {
     const googleProvider = new firebase.auth.GoogleAuthProvider();
     const fbProvider = new firebase.auth.FacebookAuthProvider();
 
-    const handleGoogleSignIn = () => {
-        firebase.auth().signInWithPopup(googleProvider)
-            .then((res) => {
-                const {displayName, photoURL, email} = res.user;
-                const SignedInUser = {
-                    isSignedIn: true,
-                    name: displayName,
-                    photo: photoURL,
-                    email: email
-                }
-                setUser(SignedInUser);
-            }).catch((error) => {
-                console.log(error);
-            });
-        }
-
-    const handleFbSignIn = ()=>{
-        firebase.auth().signInWithPopup(fbProvider)
+        const handleGoogleSignIn = () => {
+            firebase.auth().signInWithPopup(googleProvider)
                 .then((res) => {
                     const {displayName, photoURL, email} = res.user;
                     const SignedInUser = {
@@ -46,47 +31,139 @@ const Login = () => {
                         photo: photoURL,
                         email: email
                     }
-                    setUser(SignedInUser);        
-                })
-                .catch((error) => {
-                   console.log(error);
+                    setUser(SignedInUser);
+                }).catch((error) => {
+                    console.log(error);
                 });
-    }
+            }
+
+        const handleFbSignIn = ()=>{
+            firebase.auth().signInWithPopup(fbProvider)
+                    .then((res) => {
+                        const {displayName, photoURL, email} = res.user;
+                        const SignedInUser = {
+                            isSignedIn: true,
+                            name: displayName,
+                            photo: photoURL,
+                            email: email
+                        }
+                        setUser(SignedInUser);        
+                    })
+                    .catch((error) => {
+                    console.log(error);
+                    });
+        }
+
+        const handleBlur = (e) => {
+            let isFieldValid = true;
+            console.log(e.target.name, e.target.value);
+            if(e.target.name === 'email'){
+                isFieldValid = /\S+@\S+\.\S+/.test(e.target.value);
+            }
+            if(e.target.name === 'password'){
+                const isPasswordValid = e.target.value.length > 6;
+                const passwordHasNumber = /\d{1}/.test(e.target.value);
+                isFieldValid = isPasswordValid && passwordHasNumber;
+            }
+            if(isFieldValid){
+                const newUserInfo = {...user};
+                newUserInfo[e.target.name] = e.target.value;
+                setUser(newUserInfo);
+                console.log(user);
+            }
+        }
+        const handleClick = () => {
+            setNewUser(!newUser);
+        }
+        const handleSubmit = (e) => {
+            if(newUser && user.email && user.password)
+            { 
+                firebase.auth().createUserWithEmailAndPassword(user.email, user.password)
+                .then(res=>{
+                    const newUserInfo = {...user};
+                    newUserInfo.error= '';
+                    newUserInfo.success= true;
+                    setUser(newUserInfo);
+                    updateUserName(user.name);
+                })
+                .catch(error => {
+                    const newUserInfo = {...user};
+                    newUserInfo.error = error.message;
+                    newUserInfo.success = false;
+                    setUser(newUserInfo);
+                });
+            }
+            if(!newUser && user.email && user.password){
+                firebase.auth().signInWithEmailAndPassword(user.email, user.password)
+                .then( res => {
+                    const newUserInfo = {...user};
+                    newUserInfo.error= '';
+                    newUserInfo.success = true;
+                    setUser(newUserInfo);
+
+                })
+                .catch(error => {
+                    const newUserInfo = {...user};
+                    newUserInfo.error = error.message;
+                    newUserInfo.success = false;
+                    setUser(newUserInfo);
+                });
+            }
+            
+            e.preventDefault();
+        }
+        const updateUserName = (fname) => {
+            const user = firebase.auth().currentUser;
+
+            user.updateProfile({
+                displayName: fname
+            }).then(function(){
+                console.log("user name updated successfully");
+            }).catch(function(error) {
+                console.log(error);
+            });
+        }
 
     return (
         <div className="container">
             <div className="loginStyle text-center pt-4">
-            {/* {
+        
+                <h5>{newUser?'Create an Account':'Login'}</h5>
+                 <form onSubmit={handleSubmit}>
+                   { newUser && <input type="text" name="fname" onBlur={handleBlur} placeholder="First Name" required/>} <br/>
+         
+                    { newUser && <input type="text" name="lname" onBlur={handleBlur} placeholder="Last Name" required/> }<br/>
+                    
+                    <input type="text" name="email" onBlur={handleBlur} placeholder="Username or Email" required/><br/>
+                    
+                    <input type="password" name="password" onBlur={handleBlur} placeholder="Password" required/><br/>
+                    
+                    { newUser && <input type="password" name="confirmPass" onBlur={handleBlur} placeholder="Confirm Password" required/> }
+                    
+                    <input type="submit" className="submitButton" value={newUser?'Create an Account':'Login'}/>
+                {
+                    newUser ? <p>Already have an account? <button onClick={handleClick} className="text-warning toggle">Login</button></p> : <p>Don't have an account? <button onClick={handleClick} className="text-warning toggle">Create an Account</button></p> 
+                 
+                }
+
+                {/* <button type="button" class="btn btn-warning btn-lg btn-block w-75 mx-auto">Create an Account</button>
+                <p>Already have an account? <a href="#" className="text-warning">Sign In</a></p> */}
+                </form>
+            </div>
+               <p className="text-center" style={{color: 'red'}}>{user.error}</p>
+              {user.success && <p className="text-center" style={{color: 'green'}}>User {newUser ? 'Created' : 'Logged In'} Successfully</p>}
+                <div className="text-center">
+                     <h5>or</h5>
+                    <button onClick={handleGoogleSignIn} className="fbGoogleLogin mb-2"><img src="https://i.ibb.co/5YTSkQR/google.png"  height="37px" width="37px" alt=""/> Continue With Google</button><br/>
+                    <button onClick={handleFbSignIn} className="fbGoogleLogin"><img src="https://i.ibb.co/J7yrfB2/fb.png" height="37px" width="37px" alt=""/> Continue With Facebook</button>
+                </div>
+                {/* {
                     user.isSignedIn && <div>
                     <p>Welcome, {user.name}!</p>
                     <p>Your email: {user.email}</p>
                     <img src={user.photo} alt=""/>
                     </div>
             } */}
-                <h5>Create an Account</h5>
-                 <form>
-                    <input type="text" name="fname" id="fname" placeholder="First Name" required/><br/>
-         
-                    <input type="text" name="lname" id="lname" placeholder="Last Name" required/><br/>
-                    
-                    <input type="text" name="email" id="email" placeholder="Username or Email" required/><br/>
-                    
-                    <input type="password" name="password" id="password" placeholder="Password" required/><br/>
-                    
-                    <input type="password" name="confirmPass" id="confirmPass" placeholder="Confirm Password" required/>
-                    
-                    <input type="submit" className="submitButton" value="Create an Account"/>
-                    <p>Already have an account? <a href="#" className="text-warning">Login In</a></p> 
-
-                {/* <button type="button" class="btn btn-warning btn-lg btn-block w-75 mx-auto">Create an Account</button>
-                <p>Already have an account? <a href="#" className="text-warning">Sign In</a></p> */}
-                </form>
-            </div>
-                <div className="text-center">
-                     <h5>or</h5>
-                    <button onClick={handleGoogleSignIn} className="fbGoogleLogin mb-2"><img src="https://i.ibb.co/5YTSkQR/google.png"  height="37px" width="37px" alt=""/> Continue With Google</button><br/>
-                    <button onClick={handleFbSignIn} className="fbGoogleLogin"><img src="https://i.ibb.co/J7yrfB2/fb.png" height="37px" width="37px" alt=""/> Continue With Facebook</button>
-                </div>
         </div>
     );
 };

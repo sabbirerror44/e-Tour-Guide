@@ -1,6 +1,6 @@
 .loginStyle{
     height: 410px;
-    width: 560px;
+    width: 550px;
     background: rgba(255, 255, 255, 0.2);
     border: 1px solid #ABABAB;
     box-sizing: border-box;
@@ -30,4 +30,8 @@ input{
     width: 461px;
     height: 40px;
     background: #F9A51A;
+}
+.toggle{
+    background: none;
+    border: none;
 }
