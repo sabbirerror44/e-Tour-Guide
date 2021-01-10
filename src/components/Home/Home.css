@@ -1,0 +1,13 @@
+.background{
+    background: url("https://i.ibb.co/2nJFybC/background.png"), #C4C4C4;
+    background-attachment: fixed;
+    background-size: 100% 100%;
+    min-height: 700px;
+    
+}
+.button-style{
+    width: 161px;
+    height: 48px;
+    border-radius: 5px;
+
+}

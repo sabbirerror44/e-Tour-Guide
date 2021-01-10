@@ -1,0 +1,13 @@
+.style{
+    margin-top: 100px;
+    height: 416px;
+    width: 216px;
+    border-radius: 20px;
+    background: linear-gradient(0.12deg, #000000 0.1%, rgba(0, 0, 0, 0) 69.96%);
+}
+.style:hover{
+    border: 5px solid goldenrod;
+}
+.text-style{
+   margin-top: 355px;
+}

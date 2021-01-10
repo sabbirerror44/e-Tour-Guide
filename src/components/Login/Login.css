@@ -1,0 +1,33 @@
+.loginStyle{
+    height: 410px;
+    width: 560px;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid #ABABAB;
+    box-sizing: border-box;
+    border-radius: 4px;
+    margin: 20px auto;
+}
+
+.fbGoogleLogin{
+    width: 461px;
+    height: 51px;
+    background: #FFFFFF;
+    border: 1px solid #C7C7C7;
+    border-radius: 57px;
+}
+input{
+    width: 462px;
+    height: 32px;
+    padding-bottom: 10x;
+    border-bottom: 1px solid #C7C7C7;
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    margin-bottom: 20px !important;
+    outline: none;
+}
+.submitButton {
+    width: 461px;
+    height: 40px;
+    background: #F9A51A;
+}

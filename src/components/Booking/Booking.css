@@ -1,0 +1,12 @@
+.customStyle{
+    margin-top: 100px;
+    /* padding-top: 100px */
+
+}
+.form{
+    height: 420px;
+    width: 470px;
+    background-color: white;
+    border-radius: 10px;
+    
+}

@@ -1,0 +1,22 @@
+.search-field {
+    width: 370px;
+    height: 44px;
+    border-radius: 5px;
+    background: #E5E5E5;
+    border: 1px solid #ffffff;
+}
+.icon{
+    height: 24px;
+    width: 24px;
+    margin: 9px;
+}
+.input-field{
+    height: 40px;
+    width: 330px;
+    background: #E5E5E5;
+    border: none;
+    outline: none;
+}
+.container-fluid.margin{
+        margin: 0 165px;
+}
