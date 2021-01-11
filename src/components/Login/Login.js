@@ -77,7 +77,7 @@ const Login = () => {
 
             if(isFieldValid){
                 const newUserInfo = {...user};
-                newUserInfo.isSignedIn = 'true';
+                newUserInfo.isSignedIn = true;
                 newUserInfo[e.target.name] = e.target.value;
                 setUser(newUserInfo);
             }
@@ -113,7 +113,6 @@ const Login = () => {
                     setUser(newUserInfo);
                     setLoggedInUser(newUserInfo);
                     history.replace(from);
-
                 })
                 
                 .catch(error => {
@@ -122,6 +121,7 @@ const Login = () => {
                     newUserInfo.success = false;
                     setUser(newUserInfo);
                 });
+
             }
             
             e.preventDefault();

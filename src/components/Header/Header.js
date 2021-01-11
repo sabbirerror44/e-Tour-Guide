@@ -39,7 +39,7 @@ const Header = () => {
                         </li>
                         <li className="nav-item mx-3">
                              {
-                               loggedInUser.isSignedIn ? <p className="nav-item mx-3 font-weight-bold">{loggedInUser.name}</p> :
+                               loggedInUser.isSignedIn ? <p className="nav-item mx-3 my-2 font-weight-bold">{loggedInUser.email}</p> :
                                <Link to="/login" className="nav-link"><button type="button" className="btn btn-warning">Login</button></Link>
                              } 
                         </li>
