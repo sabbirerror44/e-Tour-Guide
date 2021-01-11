@@ -4,7 +4,7 @@ import "./PlaceDetails.css";
 const PlaceDetails = (props) => {
     const {id, img, name} = props.place;
     const {handleClick} = props;
-    console.log(props);
+
     const design={
         backgroundImage: `url("${img}")`,
         backgroundSize: '100% 100%',

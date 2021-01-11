@@ -10,3 +10,9 @@
     border-radius: 10px;
     
 }
+
+.bookingButton{
+    width: 430px;
+    height: 40px;
+    background: #F9A51A;
+}

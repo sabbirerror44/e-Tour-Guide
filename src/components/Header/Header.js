@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import "./Header.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom';
+import { UserContext } from '../../App';
 
 const Header = () => {
+    const [loggedInUser, setLoggedInUser] = useContext(UserContext);
     return (
-        <div class="">
+        <div>
 
          <nav className="navbar navbar-expand-lg navbar-light bg-light">
                 <div className="container-fluid margin">
@@ -36,7 +38,10 @@ const Header = () => {
                             <Link to="/" className="nav-link">Contact</Link>
                         </li>
                         <li className="nav-item mx-3">
-                             <Link to="/login" className="nav-link"><button type="button" className="btn btn-warning">Login</button></Link>
+                             {
+                               loggedInUser.isSignedIn ? <p className="nav-item mx-3 font-weight-bold">{loggedInUser.name}</p> :
+                               <Link to="/login" className="nav-link"><button type="button" className="btn btn-warning">Login</button></Link>
+                             } 
                         </li>
                     </ul>
                     </div>

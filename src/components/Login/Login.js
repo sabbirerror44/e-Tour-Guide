@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import "./Login.css";
 import firebase from "firebase/app";
 import "firebase/auth";
 import firebaseConfig from './firebase.config';
+import { UserContext } from '../../App';
+import { useHistory, useLocation } from 'react-router';
 
 if(firebase.apps.length === 0) {
     firebase.initializeApp(firebaseConfig);
@@ -17,6 +19,10 @@ const Login = () => {
         email: ''
     })
 
+    const [loggedInUser, setLoggedInUser] = useContext(UserContext);
+    const history = useHistory();
+    const location = useLocation();
+    let { from } = location.state || { from: { pathname: "/" } };
 
     const googleProvider = new firebase.auth.GoogleAuthProvider();
     const fbProvider = new firebase.auth.FacebookAuthProvider();
@@ -32,6 +38,8 @@ const Login = () => {
                         email: email
                     }
                     setUser(SignedInUser);
+                    setLoggedInUser(SignedInUser);
+                    history.replace(from);
                 }).catch((error) => {
                     console.log(error);
                 });
@@ -47,7 +55,9 @@ const Login = () => {
                             photo: photoURL,
                             email: email
                         }
-                        setUser(SignedInUser);        
+                        setUser(SignedInUser);
+                        setLoggedInUser(SignedInUser);
+                        history.replace(from);       
                     })
                     .catch((error) => {
                     console.log(error);
@@ -56,20 +66,20 @@ const Login = () => {
 
         const handleBlur = (e) => {
             let isFieldValid = true;
-            console.log(e.target.name, e.target.value);
             if(e.target.name === 'email'){
                 isFieldValid = /\S+@\S+\.\S+/.test(e.target.value);
             }
             if(e.target.name === 'password'){
-                const isPasswordValid = e.target.value.length > 6;
+                const isPasswordValid = e.target.value.length > 5;
                 const passwordHasNumber = /\d{1}/.test(e.target.value);
                 isFieldValid = isPasswordValid && passwordHasNumber;
             }
+
             if(isFieldValid){
                 const newUserInfo = {...user};
+                newUserInfo.isSignedIn = 'true';
                 newUserInfo[e.target.name] = e.target.value;
                 setUser(newUserInfo);
-                console.log(user);
             }
         }
         const handleClick = () => {
@@ -93,6 +103,7 @@ const Login = () => {
                     setUser(newUserInfo);
                 });
             }
+
             if(!newUser && user.email && user.password){
                 firebase.auth().signInWithEmailAndPassword(user.email, user.password)
                 .then( res => {
@@ -100,8 +111,11 @@ const Login = () => {
                     newUserInfo.error= '';
                     newUserInfo.success = true;
                     setUser(newUserInfo);
+                    setLoggedInUser(newUserInfo);
+                    history.replace(from);
 
                 })
+                
                 .catch(error => {
                     const newUserInfo = {...user};
                     newUserInfo.error = error.message;
@@ -112,11 +126,11 @@ const Login = () => {
             
             e.preventDefault();
         }
-        const updateUserName = (fname) => {
+        const updateUserName = (name) => {
             const user = firebase.auth().currentUser;
 
             user.updateProfile({
-                displayName: fname
+                displayName: name
             }).then(function(){
                 console.log("user name updated successfully");
             }).catch(function(error) {
@@ -130,7 +144,7 @@ const Login = () => {
         
                 <h5>{newUser?'Create an Account':'Login'}</h5>
                  <form onSubmit={handleSubmit}>
-                   { newUser && <input type="text" name="fname" onBlur={handleBlur} placeholder="First Name" required/>} <br/>
+                   { newUser && <input type="text" name="name" onBlur={handleBlur} placeholder="First Name" required/>} <br/>
          
                     { newUser && <input type="text" name="lname" onBlur={handleBlur} placeholder="Last Name" required/> }<br/>
                     
@@ -157,13 +171,7 @@ const Login = () => {
                     <button onClick={handleGoogleSignIn} className="fbGoogleLogin mb-2"><img src="https://i.ibb.co/5YTSkQR/google.png"  height="37px" width="37px" alt=""/> Continue With Google</button><br/>
                     <button onClick={handleFbSignIn} className="fbGoogleLogin"><img src="https://i.ibb.co/J7yrfB2/fb.png" height="37px" width="37px" alt=""/> Continue With Facebook</button>
                 </div>
-                {/* {
-                    user.isSignedIn && <div>
-                    <p>Welcome, {user.name}!</p>
-                    <p>Your email: {user.email}</p>
-                    <img src={user.photo} alt=""/>
-                    </div>
-            } */}
+           
         </div>
     );
 };

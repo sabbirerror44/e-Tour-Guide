@@ -6,6 +6,7 @@
     box-sizing: border-box;
     border-radius: 4px;
     margin: 20px auto;
+    outline: none !important;
 }
 
 .fbGoogleLogin{
@@ -14,6 +15,7 @@
     background: #FFFFFF;
     border: 1px solid #C7C7C7;
     border-radius: 57px;
+    outline: none !important;
 }
 input{
     width: 462px;
