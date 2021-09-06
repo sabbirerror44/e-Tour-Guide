@@ -1,15 +1,14 @@
-.design{
-    width: 270px;
-    height: 180px;
-    border-radius: 5px;
-    box-sizing: border-box;
-    margin: 8px 0;
- }
-.contentStyle{
-    width: 313.02px;
-    height: 189px;
-    margin-bottom: 25px;
-    margin-top: 10px;
-    padding: 0px 24px;
-   
+.design {
+  width: 270px;
+  height: 270px;
+  border-radius: 5px;
+  box-sizing: border-box;
+  margin: 8px 0;
+}
+.contentStyle {
+  width: 60%;
+  height: 270px;
+  margin-bottom: 25px;
+  margin-top: 10px;
+  padding: 0px 24px;
 }

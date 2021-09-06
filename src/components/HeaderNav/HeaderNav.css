@@ -1,0 +1,19 @@
+.nav-link {
+  font-size: 18px;
+  color: white !important;
+  font-family: monospace;
+  font-weight: 580;
+  padding: 8px;
+}
+.nav-link:hover {
+  background-color: goldenrod;
+}
+.backgroundImage {
+  background: url("https://i.ibb.co/KmdZKB5/navbar.jpg");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  opacity: 0.9;
+}
+button.navbar-toggler.collapsed {
+  background: white;
+}

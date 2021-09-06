@@ -1,13 +1,75 @@
-.background{
-    background: url("https://i.ibb.co/2nJFybC/background.png"), #C4C4C4;
-    background-attachment: fixed;
-    background-size: 100% 100%;
-    min-height: 700px;
-    
+.backgroundColor {
+  /* background: url("https://i.ibb.co/2nJFybC/background.png"), #c4c4c4;
+  background-attachment: fixed;
+  background-size: 100% 100%;
+  min-height: 700px; */
+  background: #eddec9;
+  margin: auto;
 }
-.button-style{
-    width: 161px;
-    height: 48px;
-    border-radius: 5px;
-
+.linkStyle {
+  text-decoration: none;
+  font-size: 18px;
+  font-family: monospace;
+  color: white;
+  font-weight: 500;
+  padding: 8px;
+}
+.linkStyle:hover {
+  background-color: goldenrod;
+}
+.frontText {
+  font-size: 60px;
+  font-family: Playfair Display;
+  font-weight: 900;
+  margin: 19px;
+}
+.textTagline {
+  font-size: 28px;
+  font-family: Playfair Display;
+  font-weight: 500;
+}
+.button-style {
+  width: 161px;
+  height: 48px;
+  border-radius: 5px;
+}
+.overview {
+  background: url("https://i.ibb.co/zf548kk/Frame-34568.png");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  min-height: 600px;
+}
+.leftOverview {
+  margin: auto 0px;
+}
+.icon {
+  height: auto;
+  color: white;
+}
+.input-group.rounded.searchStyle {
+  height: 35px;
+  width: 80%;
+  margin: 15px auto;
+}
+.iconStyle {
+  background-color: maroon;
+  height: auto;
+  width: 15%;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+@media screen and (max-width: 576px) {
+  .frontText {
+    font-size: 35px;
+    font-family: Playfair Display;
+    font-weight: 900;
+    margin: 19px;
+  }
+  .textTagline {
+    font-size: 18px;
+    font-family: Playfair Display;
+    font-weight: 500;
+  }
 }

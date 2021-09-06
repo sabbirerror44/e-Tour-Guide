@@ -1,20 +1,17 @@
 import React, { createContext, useState } from 'react';
-import './App.css';
 import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
+   BrowserRouter as Router, Route, Switch
 } from "react-router-dom";
-
-import Header from './components/Header/Header';
-import Home from './components/Home/Home';
-import PlaceDetails from './components/PlaceDetails/PlaceDetails';
-import Login from './components/Login/Login';
-import CheckOut from './components/CheckOut/CheckOut';
+import './App.css';
 import Booking from './components/Booking/Booking';
-import PrivateRoute from './components/PrivateRoute/PrivateRoute';
+import CheckOut from './components/CheckOut/CheckOut';
+import HeaderNav from './components/HeaderNav/HeaderNav';
+import Home from './components/Home/Home';
 import HotelDetails from './components/HotelDetails/HotelDetails';
+import Login from './components/Login/Login';
+import Places from './components/Places/Places';
+import PrivateRoute from './components/PrivateRoute/PrivateRoute';
+
 
 export const UserContext = createContext();
 
@@ -23,17 +20,20 @@ function App() {
   return (
    <UserContext.Provider value={[loggedInUser, setLoggedInUser]}>
      <Router>
-       <Header></Header>
+       <HeaderNav></HeaderNav>
+       
        <Switch>
          <Route path="/home">
             <Home></Home>
          </Route>
+         <Route path="/places">
+            <Places></Places>
+         </Route>
+
          <Route path="/booking/:id">
             <Booking></Booking>
          </Route>
-         <Route path="/placeDetails">
-            <PlaceDetails></PlaceDetails>
-         </Route>
+
          <Route path="/HotelDetails">
             <HotelDetails></HotelDetails>
          </Route>
